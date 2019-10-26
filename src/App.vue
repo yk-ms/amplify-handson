@@ -13,6 +13,7 @@
 import API, {  graphqlOperation } from '@aws-amplify/api'
 import { createTodo } from "./graphql/mutations"
 import { listTodos } from './graphql/queries'
+import { onCreateTodo } from './graphql/subscriptions'
 
 export default {
   name: 'app',
@@ -29,10 +30,19 @@ export default {
     async getData(){
       const todoData = await API.graphql(graphqlOperation(listTodos))
       this.todos.push(...this.todos, ...todoData.data.listTodos.items);
+    },
+    subscribe(){
+      API.graphql(graphqlOperation(onCreateTodo)).subscribe({
+        next: (eventData) => {
+          const todo = eventData.value.data.onCreateTodo;
+          this.todos.push(todo);
+        }
+      })
     }
   },
   created(){
     this.getData()
+    this.subscribe()
   }
 }
 </script>
