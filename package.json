@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@aws-amplify/api": "^1.2.3",
+    "@aws-amplify/pubsub": "^1.2.3",
     "core-js": "^3.3.2",
     "vue": "^2.6.10"
   },
