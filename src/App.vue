@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button @click="createNewTodo">Add Todo</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import API, {  graphqlOperation } from '@aws-amplify/api'
+import { createTodo } from "./graphql/mutations"
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  methods :{
+    async createNewTodo() {
+      const todo = { name: "Todo Title" , description: "あれをやる" + Date()}
+      await API.graphql(graphqlOperation(createTodo, { input: todo }))
+    }
   }
 }
 </script>
